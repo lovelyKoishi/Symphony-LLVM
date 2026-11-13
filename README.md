@@ -78,7 +78,7 @@ python3 tools/symphony_machine.py asm/arithmetic.asm --binary build/arithmetic.b
 
 [通用 BMP 查看器](docs/bmp-viewer.md)：将完整 [test_pattern.bmp](images/test_pattern.bmp) 导入磁盘地址 0，运行 [bmp_viewer.asm](asm/bmp_viewer.asm)。支持未压缩 24/32 位 BMP，自动解析尺寸；换图只换磁盘里的 BMP 并重新运行同一个程序。
 
-将 [测试 bin](images/test_pattern.bin) 导入持久磁盘地址 0，运行 [image_viewer.asm](asm/image_viewer.asm) 可显示四色图。用 `python3 tools/image_to_bin.py photo.png -o images/photo.bin --asm asm/photo.asm` 转换自己的图片。图片转换及相关测试需要 Pillow，安装方法和存储布局见 [image-viewer.md](docs/image-viewer.md)。
+用 `python3 tools/image_to_bin.py photo.png -o build/photo.bin --asm build/photo.asm` 转换自己的图片。将生成的 BIN 导入持久磁盘地址 0，再运行配套汇编。依赖与存储布局见 [原始图片查看器](docs/image-viewer.md)。
 
 ## 简单 Shell
 

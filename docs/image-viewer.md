@@ -6,14 +6,18 @@
 
 - C 源码：[image_viewer.c](../examples/image_viewer.c)
 - 转换器：[image_to_bin.py](../tools/image_to_bin.py)
-- 测试图片：[test_pattern.bin](../images/test_pattern.bin)
 - 匹配程序：[image_viewer.asm](../asm/image_viewer.asm)
-- 配置说明：[test_pattern.json](../images/test_pattern.json)
 - [测试图预览](../images/test_pattern.png)：左上红、右上绿、左下蓝、右下白。
 
 ## 先运行测试图
 
-1. 将 `images/test_pattern.bin` 按原始字节加载到电路的 **Persistent Memory，从地址 0 开始**。
+在项目根目录生成四色图。
+
+```bash
+python3 tools/image_to_bin.py --test-pattern -o build/test_pattern.bin
+```
+
+1. 将 `build/test_pattern.bin` 按原始字节加载到电路的 **Persistent Memory，从地址 0 开始**。
 2. 在程序编辑器打开本项目 `asm/image_viewer.asm`，运行。
 3. 应显示 128×96 的四色图。程序结束后在启动代码停驻，画面保留；它不会写入磁盘。
 

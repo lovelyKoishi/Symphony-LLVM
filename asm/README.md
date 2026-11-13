@@ -9,6 +9,6 @@
 
 简单 Shell：[shell.asm](shell.asm) 使用 ASCII32，[shell_ascii8.asm](shell_ascii8.asm) 使用 ASCII8。命令与编译说明见 [shell.md](../docs/shell.md)。
 
-磁盘图片查看器：[image_viewer.asm](image_viewer.asm)，搭配 [test_pattern.bin](../images/test_pattern.bin) 导入持久磁盘地址 0 使用。图片转换和配套程序生成见 [image-viewer.md](../docs/image-viewer.md)。
+[image_viewer.asm](image_viewer.asm) 可显示从持久磁盘地址 0 读取的 128×96 Pixel32 原始图片。生成图片数据及配套程序的方法见 [原始图片查看器](../docs/image-viewer.md)。
 
 通用 BMP 查看器：[bmp_viewer.asm](bmp_viewer.asm)，直接读取完整 BMP 文件并自动设置尺寸，换图不重新编译。测试文件为 [test_pattern.bmp](../images/test_pattern.bmp)，格式范围和导入方法见 [bmp-viewer.md](../docs/bmp-viewer.md)。
