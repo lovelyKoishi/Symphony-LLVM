@@ -73,6 +73,11 @@ python3 tools/symphony_machine.py asm/arithmetic.asm --binary build/arithmetic.b
 
 默认 C 编译为 `-O0`，也可用 `-O1/-O2/-O3`；优化器可能引入首版未支持的 intrinsic，此时给出错误而不生成错误代码。请使用驱动生成的大端、32 位指针 IR，不能直接传宿主 x86_64 IR。
 
+## 示例程序
+
+- 旋转甜甜圈。可在 Turing Complete 中直接打开 [donut.asm](asm/donut.asm)。[C 源码](ports/donut.c) · [动画预览](docs/previews/donut.gif)
+- 其他可直接运行的程序见 [汇编示例](asm/README.md)。
+
 ## 磁盘图片查看器
 
 [通用 BMP 查看器](docs/bmp-viewer.md)：将完整 [test_pattern.bmp](images/test_pattern.bmp) 导入磁盘地址 0，运行 [bmp_viewer.asm](asm/bmp_viewer.asm)。支持未压缩 24/32 位 BMP，自动解析尺寸；换图只换磁盘里的 BMP 并重新运行同一个程序。
