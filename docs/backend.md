@@ -36,6 +36,14 @@
 
 IR 入口工具接受 `.ll/.bc`，要求有大端、32 位指针的 DataLayout。对宿主小端/64 位 IR 报错；仅满足端序和指针宽度还不足以保证任意外部 IR 都符合本 C ABI，直接 IR 使用者须保证完整类型/对齐约定一致。
 
+以下命令保留 Clang 生成的 IR，也可以单独运行后端或导出机器码。
+
+```bash
+python3 tools/symphony-cc examples/arithmetic.c -o build/arithmetic.asm --save-ir build/arithmetic.ll
+build/llvm2symphony build/arithmetic.ll -o build/from_ir.asm
+python3 tools/symphony_machine.py build/arithmetic.asm --binary build/arithmetic.bin
+```
+
 参考：[Clang 跨平台编译](https://clang.llvm.org/docs/CrossCompilation.html)、[LLVM Language Reference](https://llvm.org/docs/LangRef.html)。
 
 ## 3. 选定的 Symphony 私有 ABI
