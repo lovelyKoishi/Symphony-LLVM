@@ -1,0 +1,17 @@
+{
+  "opt": "3",
+  "frames": 2,
+  "diagnostics": false,
+  "data_base": "0x8000",
+  "stack_top": "0x10000",
+  "instruction_counts": {
+    "baseline": 12315432,
+    "before": 12229652,
+    "after": 12229652
+  },
+  "labels": {
+    "baseline": "previous compiler + previous runtime",
+    "before": "previous compiler + current runtime",
+    "after": "current compiler + current runtime"
+  }
+}

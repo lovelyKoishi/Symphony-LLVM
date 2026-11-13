@@ -1,0 +1,9 @@
+/build/
+**/__pycache__/
+*.pyc
+/.local/
+/.agents/
+/.aws/
+/.codex/
+/.venv/
+/.pytest_cache/

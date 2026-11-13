@@ -1,0 +1,157 @@
+{
+  "captured_date": "2026-11-08",
+  "timezone": "Asia/Shanghai",
+  "upstream": {
+    "url": "https://github.com/lovelyKoishi/Symphony-compiler",
+    "commit": "dadbbed5ec43c5f6ab513e9f369206aaab680260"
+  },
+  "sources": [
+    {
+      "id": "ISA",
+      "path": "SAVE/spec.isa",
+      "bytes": 12600,
+      "sha256": "1227abe5ef896d5dede01272ddf4a426bb452406b08d539475fcd920868518e9"
+    },
+    {
+      "id": "CIRCUIT",
+      "path": "SAVE/circuit.data",
+      "bytes": 2769,
+      "sha256": "60a5d4a45ea940f7d73eb75401954582aab42ed2e3030ed4cf971b3530af2824"
+    },
+    {
+      "id": "ARITH",
+      "path": "PROJECT/asm/diagnostics/arithmetic_test.asm",
+      "bytes": 35515,
+      "sha256": "328041bac61ed9fae4e33fe034b6524ce21622f1e3d1e8754278fd13c312e0fe",
+      "original_path": "SAVE/arithmetic_test.asm"
+    },
+    {
+      "id": "HELLO",
+      "path": "PROJECT/asm/diagnostics/hello_screen.asm",
+      "bytes": 400,
+      "sha256": "f8e9f355ff1594315c5df3681e73d0ed201b44200b9e75cc74d13ad5c2bbcced",
+      "original_path": "SAVE/hello_screen.asm"
+    },
+    {
+      "id": "SIMPLE",
+      "path": "PROJECT/asm/diagnostics/mul_div_simple.asm",
+      "bytes": 725,
+      "sha256": "9cb229e2112eb6e53dda5e795e2b9a85421a192540f633cde06eaaf1d196af40",
+      "original_path": "SAVE/mul_div_simple.asm"
+    },
+    {
+      "id": "ASM",
+      "path": "GAME/asset/manual/Assembly/Assembly programming/doc.txt",
+      "bytes": 3298,
+      "sha256": "43d2b39049add9646fd1f4ba410beac01ebfb16118268e2066cb48cec8f11611"
+    },
+    {
+      "id": "SETTINGS",
+      "path": "GAME/asset/manual/Assembly/Language creation/Settings/doc.txt",
+      "bytes": 1545,
+      "sha256": "11430071bb806661daf8fc83f7cd658394b770987f570d832e571d4b6aea3f12"
+    },
+    {
+      "id": "FIELDS",
+      "path": "GAME/asset/manual/Assembly/Language creation/Fields/doc.txt",
+      "bytes": 1077,
+      "sha256": "a8c287e053fb107837a8b7f9587a4e239f1d74dc6bc8fb4af884b0e0e5bb72a6"
+    },
+    {
+      "id": "ISA-LANG",
+      "path": "GAME/asset/manual/Assembly/Language creation/doc.txt",
+      "bytes": 2669,
+      "sha256": "d6402669bdc037c68cf566df14229414a82f8ccfda44127f762d5fb965ec930b"
+    },
+    {
+      "id": "ISA-INST",
+      "path": "GAME/asset/manual/Assembly/Language creation/Instructions/doc.txt",
+      "bytes": 3878,
+      "sha256": "05fde90cea3158421031e55918358f94ac9df50db8de517b49adf4da8ed68960"
+    },
+    {
+      "id": "OPS",
+      "path": "GAME/asset/manual/Assembly/Language creation/Instructions/Operators/doc.txt",
+      "bytes": 2415,
+      "sha256": "451cb49bf39cc8ac83fa47863cf0dc9aa59b6a660db40925333f07ba2bc8bd5a"
+    },
+    {
+      "id": "SCREEN",
+      "path": "GAME/asset/manual/Circuits/The screen/doc.txt",
+      "bytes": 2290,
+      "sha256": "cb77a78a2f85364714103725f92bdb2e49376cbc5b1c1c4697ef80ea179e33d7"
+    },
+    {
+      "id": "KEYBOARD",
+      "path": "GAME/asset/manual/Circuits/The keyboard/doc.txt",
+      "bytes": 1734,
+      "sha256": "7ee73764eb480ae9ccdebbfc115eab0d2923460bb8c1c25eb57511e92cb61886"
+    },
+    {
+      "id": "REF",
+      "path": "GAME/campaign/symphony_8_io_devices/test.si",
+      "bytes": 11482,
+      "sha256": "c81fedfe7e9c2b400a3e6d5e27bc9c534d666a60d89a528240eee684bd799d0b"
+    },
+    {
+      "id": "IO",
+      "path": "GAME/campaign/symphony_8_io_devices/meta.txt",
+      "bytes": 2406,
+      "sha256": "5e739b8d8fc379bc6c472ebd8e1311b26fd971acabfc0dbd15b05de8bc501a4f"
+    },
+    {
+      "id": "ALU",
+      "path": "GAME/campaign/symphony_alu/test.si",
+      "bytes": 3636,
+      "sha256": "0f6425c9d7e2899418f5b86804c8901bd3bec0305f90981e8f4fb80358eca52d"
+    },
+    {
+      "id": "CMP",
+      "path": "GAME/campaign/symphony_cmp/test.si",
+      "bytes": 1613,
+      "sha256": "984a4ef6a52ef21f82b2dc5031d08320da9668cc5e8214e858186302dd49b4dd"
+    },
+    {
+      "id": "COND",
+      "path": "GAME/campaign/symphony_condition_test/test.si",
+      "bytes": 1325,
+      "sha256": "558ba3c888138803788c0e5092fa1d65844274ffffbabcf646e75c108ea5a484"
+    },
+    {
+      "id": "PC",
+      "path": "GAME/campaign/symphony_counter_1/test.si",
+      "bytes": 1106,
+      "sha256": "77d4fed866154840cdb611b9e84c1bd419d75f7ab56f8edf7fc86050358016c7"
+    },
+    {
+      "id": "RAM",
+      "path": "GAME/campaign/symphony_6_ram/meta.txt",
+      "bytes": 3461,
+      "sha256": "0ba30737808d42263393796d65d0d8c179f18d62d7fe89e4f1876016f15c1141"
+    },
+    {
+      "id": "SSD",
+      "path": "GAME/campaign/symphony_7_ssd/meta.txt",
+      "bytes": 994,
+      "sha256": "dace7f78f5dbb532a015aed159359298e56914500403d5588793f4a5513fbcff"
+    },
+    {
+      "id": "STACK",
+      "path": "GAME/campaign/symphony_10_stack/meta.txt",
+      "bytes": 1712,
+      "sha256": "c99c1503fe3742bb9123c5408a9a10ff6cc840baef9f244fc15eeb975e9a770e"
+    },
+    {
+      "id": "FUNC",
+      "path": "GAME/campaign/symphony_11_functions/meta.txt",
+      "bytes": 2608,
+      "sha256": "00f84798c8354babba110802bdfe442dfd85df9c1e5d8795c9561b524a8ea4e4"
+    },
+    {
+      "id": "GAME-ABI",
+      "path": "GAME/campaign/symphony_11_functions/new_program.asm",
+      "bytes": 2046,
+      "sha256": "db0d1159107e83e317419bac4fc2b441eac4a6a91fe2aadd277f038cabc931b9"
+    }
+  ]
+}

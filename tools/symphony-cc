@@ -1,0 +1,86 @@
+#!/usr/bin/env python3
+"""Freestanding C -> big-endian LLVM IR -> Symphony assembly."""
+import argparse
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+ROOT = Path(__file__).resolve().parents[1]
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('sources', type=Path, nargs='+')
+    p.add_argument('--tty', action='store_true', help='link the canonical TTY runtime')
+    p.add_argument('--tty-display', choices=('ascii8','ascii32'),
+                   help='link TTY with the selected display backend (default ascii8)')
+    p.add_argument('--gfx', action='store_true', help='link the 128x96 Pixel8 graphics runtime')
+    p.add_argument('--libc', action='store_true', help='link the freestanding C library subset and TTY stdio')
+    p.add_argument('--llvm-link', default=os.environ.get('LLVM_LINK', 'llvm-link'))
+    p.add_argument('-o', '--output', type=Path, required=True)
+    p.add_argument('-O', choices=('0', '1', '2', '3'), default='0')
+    p.add_argument('-I', dest='includes', action='append', default=[])
+    p.add_argument('-D', dest='defines', action='append', default=[])
+    p.add_argument('--clang', default=os.environ.get('CLANG', 'clang'))
+    p.add_argument('--backend', type=Path, default=ROOT / 'build/llvm2symphony')
+    p.add_argument('--save-ir', type=Path)
+    p.add_argument('--entry', default='main')
+    p.add_argument('--stack-top', type=lambda s: int(s, 0), default=0x1000000)
+    p.add_argument('--data-base', type=lambda s: int(s, 0), default=0x10000)
+    args = p.parse_args()
+    if not args.backend.is_file():
+        p.error('backend not built: cmake -S . -B build -G Ninja && cmake --build build')
+    if not shutil.which(args.clang):
+        p.error(f'Clang not found: {args.clang}')
+    # Generate the correct endian/type layout from the frontend; never patch a
+    # little-endian module after its layout-dependent optimizations have run.
+    with tempfile.TemporaryDirectory(prefix='symphony-cc-') as tmp:
+        ir = Path(tmp) / 'module.ll'
+        asm = Path(tmp) / 'program.asm'
+        command = [args.clang, '--target=armeb-none-eabi', '-march=armv7-a',
+                   '-mfloat-abi=soft', '-std=c11', '-ffreestanding', '-fno-builtin',
+                   '-fno-stack-protector', '-fno-vectorize', '-fno-slp-vectorize',
+                   '-fno-discard-value-names', '-S', '-emit-llvm', '-O' + args.O,
+                   '-I', str(ROOT / 'include')]
+        for value in args.includes:
+            command.extend(['-I', value])
+        for value in args.defines:
+            command.extend(['-D', value])
+        sources = list(args.sources)
+        if args.tty or args.libc or args.tty_display:
+            sources.append(ROOT / 'runtime/tty.c')
+            sources.append(ROOT / 'runtime' / ('tty_'+(args.tty_display or 'ascii8')+'.c'))
+        if args.gfx:
+            sources.append(ROOT / 'runtime/gfx.c')
+        if args.libc:
+            sources.extend(ROOT / 'runtime/libc' / name for name in
+                           ('string.c', 'ctype.c', 'stdlib.c', 'num.c', 'stdio.c'))
+        modules = []
+        for index, source in enumerate(sources):
+            module = Path(tmp) / f'input_{index}.ll'
+            subprocess.run(command + [str(source), '-o', str(module)], check=True)
+            modules.append(module)
+        if len(modules) == 1:
+            shutil.copyfile(modules[0], ir)
+        else:
+            if not shutil.which(args.llvm_link):
+                p.error(f'llvm-link not found: {args.llvm_link}')
+            subprocess.run([args.llvm_link, '-S', *map(str, modules), '-o', str(ir)], check=True)
+        if args.save_ir:
+            shutil.copyfile(ir, args.save_ir)
+        subprocess.run([str(args.backend.resolve()), str(ir), '-o', str(asm),
+                        '--entry', args.entry, '--stack-top', str(args.stack_top),
+                        '--data-base', str(args.data_base)], check=True)
+        # Validate actual encoding/label ranges before delivering an output.
+        from symphony_machine import assemble
+        assemble(asm.read_text(), ROOT / 'isa/spec.isa')
+        shutil.copyfile(asm, args.output)
+
+if __name__ == '__main__':
+    try:
+        main()
+    except (subprocess.CalledProcessError, OSError, ValueError) as exc:
+        print(f'symphony-cc: {exc}', file=sys.stderr)
+        sys.exit(1)

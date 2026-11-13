@@ -1,0 +1,24 @@
+{
+  "width": 128,
+  "height": 96,
+  "resolution": 31,
+  "source_size": [
+    128,
+    96
+  ],
+  "draw_size": [
+    128,
+    96
+  ],
+  "draw_offset": [
+    0,
+    0
+  ],
+  "format": "Pixel32: R,G,B,0; top-to-bottom rows; no header",
+  "disk_offset": 0,
+  "pixel_bytes": 49152,
+  "disk_capacity": 16777216,
+  "disk_image_bytes": 49152,
+  "framebuffer_address": "0x00400000",
+  "pixel_sha256": "95f501ef36e2f356487beb8035cd5ade62520de61366a48db330def016504e6b"
+}

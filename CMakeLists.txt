@@ -1,0 +1,43 @@
+cmake_minimum_required(VERSION 3.20)
+project(SymphonyLLVM VERSION 0.1.0 LANGUAGES C CXX)
+find_package(LLVM REQUIRED CONFIG)
+if(LLVM_VERSION_MAJOR LESS 23)
+  message(FATAL_ERROR "This backend currently requires LLVM 23 or newer")
+endif()
+message(STATUS "Using LLVM ${LLVM_PACKAGE_VERSION}")
+add_executable(llvm2symphony src/backend.cpp)
+target_compile_features(llvm2symphony PRIVATE cxx_std_17)
+target_include_directories(llvm2symphony SYSTEM PRIVATE ${LLVM_INCLUDE_DIRS})
+add_definitions(${LLVM_DEFINITIONS})
+if(TARGET LLVM)
+  target_link_libraries(llvm2symphony PRIVATE LLVM)
+else()
+  llvm_map_components_to_libnames(LLVM_LIBS Core IRReader Analysis Support IPO TransformUtils)
+  target_link_libraries(llvm2symphony PRIVATE ${LLVM_LIBS})
+endif()
+target_compile_options(llvm2symphony PRIVATE -Wall -Wextra -Wpedantic)
+enable_testing()
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_test(NAME integration COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_toolchain.py --backend $<TARGET_FILE:llvm2symphony>)
+
+add_test(NAME tty COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_tty.py --backend $<TARGET_FILE:llvm2symphony>)
+add_test(NAME tty_ascii32 COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_tty.py --backend $<TARGET_FILE:llvm2symphony> --display ascii32)
+add_test(NAME shell COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_shell.py --backend $<TARGET_FILE:llvm2symphony>)
+add_test(NAME image_viewer COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_image_viewer.py --backend $<TARGET_FILE:llvm2symphony>)
+add_test(NAME bmp_viewer COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_bmp_viewer.py --backend $<TARGET_FILE:llvm2symphony>)
+set_tests_properties(bmp_viewer PROPERTIES LABELS slow TIMEOUT 240)
+
+add_test(NAME gfx COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_gfx.py --backend $<TARGET_FILE:llvm2symphony>)
+
+add_test(NAME libc COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_libc.py --backend $<TARGET_FILE:llvm2symphony>)
+
+add_test(NAME benchmarks COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/benchmark.py --backend $<TARGET_FILE:llvm2symphony> --output ${CMAKE_BINARY_DIR}/bench-current.json)
+
+add_test(NAME donut COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_donut.py --backend $<TARGET_FILE:llvm2symphony> --artifacts ${CMAKE_BINARY_DIR}/validation/donut)
+set_tests_properties(donut PROPERTIES LABELS slow TIMEOUT 240)
+
+add_test(NAME donut_static COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_donut.py --backend $<TARGET_FILE:llvm2symphony> --single-frame --artifacts ${CMAKE_BINARY_DIR}/validation/donut-static)
+set_tests_properties(donut_static PROPERTIES LABELS slow TIMEOUT 240)
+
+add_test(NAME donut_low_memory COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_donut.py --backend $<TARGET_FILE:llvm2symphony> --low-memory --diagnostics --artifacts ${CMAKE_BINARY_DIR}/validation/donut-low-memory)
+set_tests_properties(donut_low_memory PROPERTIES LABELS slow TIMEOUT 240)
