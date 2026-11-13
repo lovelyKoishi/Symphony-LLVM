@@ -58,13 +58,3 @@ python3 tools/symphony-cc examples/bmp_viewer.c --tty -O1 -DBMP_DISK_OFFSET=4096
 ```
 
 `bfSize` 是无文件系统情况下的文件长度依据。程序可验证它与像素区、物理磁盘的关系，但不能凭原始磁盘判断是否只导入了文件的一部分而剩余区域仍是旧数据；导入时须使用完整文件。
-
-## 验证
-
-[tests/test_bmp_viewer.py](../tests/test_bmp_viewer.py) 独立构造 BMP：24/32 位、两种方向、四种行填充长度、V4/V5 头、额外像素偏移、非对齐磁盘起点、最后像素精确到磁盘末尾，以及非法尺寸/文件大小/像素偏移/压缩/位深。使用同一个目标程序读取不同图片，逐字节比较显存、验证黑边、显存保护字节、只读磁盘、错误界面及 SP 恢复。还完整执行大图缩放到最大屏幕的路径。
-
-```bash
-ctest --test-dir build -R '^bmp_viewer$' --output-on-failure
-```
-
-测试已通过参考执行器；BMP 版实际电路显示还需运行新程序确认。
