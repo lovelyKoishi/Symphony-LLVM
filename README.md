@@ -75,16 +75,11 @@ python3 tools/symphony_machine.py asm/arithmetic.asm --binary build/arithmetic.b
 
 ## 示例程序
 
-- 旋转甜甜圈。可在 Turing Complete 中直接打开 [donut.asm](asm/donut.asm)。[C 源码](ports/donut.c) · [动画预览](docs/previews/donut.gif)
-- 其他可直接运行的程序见 [汇编示例](asm/README.md)。
+- **旋转甜甜圈**。在 Turing Complete 中打开 [donut.asm](asm/donut.asm)。[C 源码](ports/donut.c) · [动画预览](docs/previews/donut.gif)
+- **BMP 查看器**。将未压缩的 24/32 位 BMP 导入持久磁盘地址 0，再运行 [bmp_viewer.asm](asm/bmp_viewer.asm)。程序自动识别图片尺寸。[使用说明](docs/bmp-viewer.md) · [示例图片](images/test_pattern.bmp)
+- **简单 Shell**。支持 `help`、`echo`、`clear`、`about`、`exit`。[ASCII32 版](asm/shell.asm) · [ASCII8 版](asm/shell_ascii8.asm) · [使用说明](docs/shell.md)
 
-## 磁盘图片查看器
-
-[通用 BMP 查看器](docs/bmp-viewer.md)：将完整 [test_pattern.bmp](images/test_pattern.bmp) 导入磁盘地址 0，运行 [bmp_viewer.asm](asm/bmp_viewer.asm)。支持未压缩 24/32 位 BMP，自动解析尺寸；换图只换磁盘里的 BMP 并重新运行同一个程序。
-
-## 简单 Shell
-
-打开 [asm/shell.asm](asm/shell.asm) 可使用 ASCII32 反色光标的简单命令行，支持 `help`、`echo`、`clear`、`about`、`exit`。源码及编译方法见 [shell.md](docs/shell.md)。ASCII8 版本为 [asm/shell_ascii8.asm](asm/shell_ascii8.asm)。
+其他程序见 [汇编示例](asm/README.md)。
 
 ## 当前能力
 
