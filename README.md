@@ -43,6 +43,5 @@ python3 tools/symphony_machine.py build/arithmetic.asm --run
 - [后端实现、ABI、内存布局和限制](docs/backend.md)
 - [架构与硬件行为](docs/architecture.md)
 - [汇编器规定](docs/assembly.md)
-- [全部 76 种 ISA 编码](docs/isa-encoding.md)
 
 第三方移植代码保留各自许可证，见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

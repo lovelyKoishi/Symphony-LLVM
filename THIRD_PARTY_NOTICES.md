@@ -1,14 +1,10 @@
 # Third-party code
 
-The project's MIT license covers original Symphony LLVM code. The following
-third-party files retain their own notices and license:
+The project's MIT license covers original Symphony LLVM code.
 
-- `third_party/litex_donut/donut.c`: Andy Sloane (a1k0n), 2020, distributed in
-  LiteX, pinned at `c2cceb84723ac892b65ea39557b75efd9564f6b7`.
-- `ports/donut.c`: Symphony adaptation of that fixed-point program.
-
-See [the retained LiteX BSD 2-Clause license](third_party/litex_donut/LICENSE)
-and [source metadata](third_party/litex_donut/SOURCE.json).
+The fixed-point donut demo in `ports/donut.c` and `asm/donut.asm` is
+adapted from Andy Sloane's 2020 implementation distributed in LiteX.
+See the [LiteX BSD 2-Clause license](third_party/litex_donut/LICENSE).
 
 Original author: https://gist.github.com/a1k0n/80f48aa8911fffd805316b8ba8f48e83
 
