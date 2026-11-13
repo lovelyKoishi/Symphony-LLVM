@@ -8,7 +8,7 @@
 2. 运行项目中的 `asm/bmp_viewer.asm`。
 3. 换图后重新运行同一个程序即可。程序只读磁盘，图像完成后保留在屏幕。
 
-测试文件 [test_pattern.bmp](../images/test_pattern.bmp) 是 128×96 的 24 位 BMP。导入后应显示与原始 Pixel32 查看器相同的四色测试图。
+测试文件 [test_pattern.bmp](../images/test_pattern.bmp) 是 128×96 的 24 位 BMP。导入后应显示四色图。
 
 若导入界面只显示 bin 扩展名，可复制 BMP 为 .bin 后导入，内容不变、文件头保留：
 
@@ -16,20 +16,7 @@
 cp images/test_pattern.bmp build/test_pattern_bmp.bin
 ```
 
-将其他格式转换为普通 24 位 BMP，例如：
-
-```bash
-python3 - <<'PYCODE'
-from PIL import Image, ImageOps
-with Image.open('photo.png') as source:
-    image = ImageOps.exif_transpose(source).convert('RGBA')
-background = Image.new('RGBA', image.size, (0, 0, 0, 255))
-background.alpha_composite(image)
-background.convert('RGB').save('build/photo.bmp', format='BMP')
-PYCODE
-```
-
-这里没有为图片生成专用程序；转换只是把 PNG/JPEG 编码换为 BMP，头部由目标机读取。
+其他格式可用图片编辑器另存为未压缩的 24 位 BMP。
 
 ## 支持范围
 

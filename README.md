@@ -15,7 +15,6 @@ C → Clang（大端 ARM32 前端配置）→ LLVM IR → llvm2symphony → .asm
 需要 LLVM 23+ 开发库、相匹配的 Clang、CMake、Ninja、C++17 编译器和 Python 3。
 
 ```bash
-python3 -m pip install -r requirements-images.txt
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ctest --test-dir build --output-on-failure
@@ -77,8 +76,6 @@ python3 tools/symphony_machine.py asm/arithmetic.asm --binary build/arithmetic.b
 ## 磁盘图片查看器
 
 [通用 BMP 查看器](docs/bmp-viewer.md)：将完整 [test_pattern.bmp](images/test_pattern.bmp) 导入磁盘地址 0，运行 [bmp_viewer.asm](asm/bmp_viewer.asm)。支持未压缩 24/32 位 BMP，自动解析尺寸；换图只换磁盘里的 BMP 并重新运行同一个程序。
-
-用 `python3 tools/image_to_bin.py photo.png -o build/photo.bin --asm build/photo.asm` 转换自己的图片。将生成的 BIN 导入持久磁盘地址 0，再运行配套汇编。依赖与存储布局见 [原始图片查看器](docs/image-viewer.md)。
 
 ## 简单 Shell
 
