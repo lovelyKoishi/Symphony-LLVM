@@ -2,7 +2,7 @@
 
 另有 [通用 BMP 查看器](bmp-viewer.md)，可直接解析 BMP 并自动识别尺寸；本页仍描述无头 Pixel32 bin 路径。
 
-使用用户确认的 **16,777,216 字节（16 MiB）持久磁盘**。程序不解析 BMP、PNG、JPEG 或文件系统，也不读文件头；主机生成器把图片转换为硬件可直接显示的像素数据，并可生成匹配的汇编程序。
+目标持久磁盘容量为 **16 MiB**。程序不解析 BMP、PNG、JPEG 或文件系统，也不读文件头；主机生成器把图片转换为硬件可直接显示的像素数据，并可生成匹配的汇编程序。
 
 - C 源码：[image_viewer.c](../examples/image_viewer.c)
 - 转换器：[image_to_bin.py](../tools/image_to_bin.py)
@@ -71,13 +71,3 @@ python3 tools/image_to_bin.py photo.png --pad-disk -o images/photo.bin --asm asm
 生成器及 C 静态断言都检查偏移与像素数据不超过磁盘。默认文件只有必要的前缀和像素；填满整盘必须显式指定 --pad-disk。
 
 主内存 framebuffer 固定放在 `0x00400000`，最大占 3,145,728 字节，结束于 `0x00700000`，避开当前独立程序及其栈。它不声明巨大初始化数组，不在汇编末尾展开零或把图片嵌进程序。设置屏幕后逐 word 复制，加载过程可逐步看到图像。
-
-## 验证
-
-`tests/test_image_viewer.py` 验证真实机器字执行后的 framebuffer 与预期像素逐字节相同，包括 RGB 顺序、扫描方向、非零偏移、磁盘末尾精确边界、显存保护字节、只读磁盘、栈恢复，以及生成器的透明度、黑边、缩放、容量与输入覆盖检查。测试图的生成 bin、配套 asm 也一起执行验证。
-
-```bash
-ctest --test-dir build -R '^image_viewer$' --output-on-failure
-```
-
-这是参考执行器验证；尚未声称在用户实际电路导入磁盘并显示成功。

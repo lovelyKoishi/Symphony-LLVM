@@ -12,7 +12,7 @@ C → Clang（大端 ARM32 前端配置）→ LLVM IR → llvm2symphony → .asm
 
 ## 构建
 
-需要 LLVM 23+ 开发库、相匹配的 Clang、CMake、C++17 编译器和 Python 3。当前在 LLVM/Clang 23.1.4 上验证。
+需要 LLVM 23+ 开发库、相匹配的 Clang、CMake、Ninja、C++17 编译器和 Python 3。
 
 ```bash
 python3 -m pip install -r requirements-images.txt
@@ -26,9 +26,8 @@ ctest --test-dir build --output-on-failure
 ## 工作区目录
 
 - `examples/`：C 示例源码。
-- `asm/`：可直接在游戏中打开的汇编；`diagnostics/` 为诊断程序。
-- `build/`：编译缓存、临时验证产物，由 Git 忽略。
-- `benchmarks/results/`：持久化性能记录。
+- `asm/`：可直接在游戏中打开的汇编。
+- `build/`：本地构建目录。
 - `docs/previews/`：参考执行器生成的画面预览。
 
 汇编统一输出到本项目，不再写入游戏的电路目录。详见 [汇编目录](asm/README.md)。编译和软件测试无需安装游戏。
@@ -99,24 +98,15 @@ python3 tools/symphony_machine.py asm/arithmetic.asm --binary build/arithmetic.b
 
 尚不支持完整 libc、浮点、64 位整数运算、向量、原子、变参、动态 alloca、完整聚合传参 ABI、ELF 链接。指令地址必须适合当前 ISA 的 16 位直接跳转；较大代码会明确报错。后端用全函数活跃分析和图着色分配 r7–r11；支持跨基本块和循环保留变量，跨调用的高频值在调用点保存/恢复，低收益值及寄存器溢出值保留栈槽。无局部栈需求的叶子函数可省略栈帧。也会移除入口不可达的库函数。
 
-通用优化结果与复现方法见 [基准报告](docs/optimization.md)。运行 `python3 tools/benchmark.py --output build/bench.json` 可验证八类负载并统计指令、访存、代码大小和最大栈占用。
+## 文档
 
-## 规格与验证
-
-- [上游程序移植：donut.c](docs/ports.md)
 - [C 库接口和使用示例](docs/libc.md)
 - [图形库接口和使用示例](docs/gfx.md)
 - [TTY 接口和使用示例](docs/tty.md)
 - [后端实现、ABI、内存布局和限制](docs/backend.md)
 - [架构与硬件行为](docs/architecture.md)
 - [汇编器规定](docs/assembly.md)
-- [执行器目标契约](docs/executor.md)
-- [调用约定的来源与 LLVM 约束](docs/calling-convention.md)
 - [全部 76 种 ISA 编码](docs/isa-encoding.md)
-- [证据和未决硬件边界](docs/sources-and-status.md)
-
 打字机每行 96 个字符；回车到下一行行首，退格删除前一个屏幕单元（可跨行），左上角退格无动作，满屏后上滚。`asm/typewriter.asm` 是由对应 C 源码生成的可运行版本。
 
-用户已实测确认回车键码为 `10`、退格为 `13`；两者按下事件分别是 `0x10a/0x10d`。新增 `div/mod` 为无符号，其余硬件保持标准 Symphony。软件测试不代替在游戏电路上的差分验收。
-
-第三方移植代码保留各自许可证，见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。donut 的两帧差分回归标记为 slow，可用 `ctest --test-dir build -LE slow` 跳过。
+第三方移植代码保留各自许可证，见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。

@@ -60,10 +60,9 @@ uint8_t color = (red3 << 5) | (green3 << 2) | blue2;
 
 这不是 ASCII8 屏幕设置中的 24 位 `0xRRGGBB`。
 
-## 示例与验收
+## 示例
 
 - [gfx_demo.c](../examples/gfx_demo.c)：彩色线段、矩形边框与像素。
 - [cube.c](../examples/cube.c)：复用 `gfx_line` 绘制 12 条棱，无面填充；点位仍是预先给定的投影坐标，不在硬件上计算旋转。
-- [test_gfx.py](../tests/test_gfx.py)：机器字级验证七组图形测试，含八个方向的线段、极值坐标裁剪、点/矩形越界保护、退化矩形、清屏、O0/O1 和 TTY/GFX 同时链接。
 
 正方体迁移前后 framebuffer 逐字节一致。软件测试不能代替游戏硬件上的最后一次显示检查。

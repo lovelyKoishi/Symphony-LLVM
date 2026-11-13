@@ -26,13 +26,3 @@ python3 tools/symphony-cc examples/shell.c --libc --tty-display ascii8 -O1 --dat
 ```
 
 汇编保存在本项目，不写入游戏电路目录。两种布局均在低 64 KiB 内运行。屏幕颜色初始化由对应 TTY 后端负责，没有在程序末尾输出大量无意义的零。
-
-## 验证
-
-[tests/test_shell.py](../tests/test_shell.py) 编译实际 Shell 源码，分别装配并执行两种显示后端，以键盘事件驱动命令输入。覆盖帮助、文本输出、未知命令、额外参数、空行、空格与 Tab、退格、长行折行、滚屏、清屏后继续输入、退出和等待提示符时的可见光标。还检查栈恢复，并将执行器内存限制为 64 KiB。
-
-```bash
-ctest --test-dir build -R '^shell$' --output-on-failure
-```
-
-还验证左右键修正命令名和参数，以及真实 Shell 在可控时钟下的光标闪烁与活动后重新显示。测试为参考执行器验证，实机交互效果需在游戏中确认。

@@ -119,16 +119,8 @@ getchar 使用规范模式：按回车提交后逐字节读取，包括 LF；无
 
 还没有 malloc/free/realloc、qsort、exit/abort、浮点转换、宽字符、完整 locale 或完整标准库 ABI。调用未声明/未提供的接口会得到编译或链接错误。
 
-## 验证
-
-[test_libc.py](../tests/test_libc.py) 在 O0 和 O1 下通过实际 Symphony 机器字执行检查：内存重叠、无符号字节比较、字符串终止/补零、分词状态、全部 256 个字节的 ASCII 分类、整数前缀/endptr/溢出、各进制转换及容量、随机种子、signed/unsigned 二分查找回调、TTY 标准 I/O。
-
-实现过程中补齐了后端对三路 scmp/ucmp、noalias scope 声明的处理，并清理 Clang O0 的无用宽位转换。真正存活的 64 位运算仍会被拒绝。
-
 ## 内存批量操作快速路径
 
 `memcpy`/`memset` 在长度至少 16 字节时可进入 32 位路径。`memcpy` 要求源、目的地址模 4 相同，先复制前导零散字节直至双方对齐，再复制完整 word 和尾字节；不同对齐仍按字节复制。`memset` 同样先处理对齐前缀，将输入值截断为 unsigned char 后复制为四字节填充值，再写 word 和尾字节。
 
 word 使用 `may_alias` 类型，避免对 char 数组的访问受到严格别名优化干扰。只在剩余长度至少 4 时访问完整 word；不通过读取请求范围外的内容来加速。返回值、重叠限制不变，memmove 继续按方向逐字节处理。LLVM 内存 intrinsic 的独立 lowering 仍按字节循环，不应与这里的 libc 快速路径混同。
-
-回归遍历全部 16 种源/目的对齐组合、0..35 和 63/64/65 字节长度，检查返回指针、源内容和目的前后保护字节。memset 还检查所有 4 种偏移及 0、0x180、-1 的字节截断，目标 O1/O2 均通过。批量路径增加固定选择开销和代码体积，未宣称每种短操作都会更快。性能对比见 [optimization.md](optimization.md)。

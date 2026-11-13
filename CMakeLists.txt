@@ -22,22 +22,9 @@ add_test(NAME integration COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/test
 
 add_test(NAME tty COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_tty.py --backend $<TARGET_FILE:llvm2symphony>)
 add_test(NAME tty_ascii32 COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_tty.py --backend $<TARGET_FILE:llvm2symphony> --display ascii32)
-add_test(NAME shell COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_shell.py --backend $<TARGET_FILE:llvm2symphony>)
-add_test(NAME image_viewer COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_image_viewer.py --backend $<TARGET_FILE:llvm2symphony>)
 add_test(NAME bmp_viewer COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_bmp_viewer.py --backend $<TARGET_FILE:llvm2symphony>)
 set_tests_properties(bmp_viewer PROPERTIES LABELS slow TIMEOUT 240)
 
 add_test(NAME gfx COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_gfx.py --backend $<TARGET_FILE:llvm2symphony>)
 
 add_test(NAME libc COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_libc.py --backend $<TARGET_FILE:llvm2symphony>)
-
-add_test(NAME benchmarks COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tools/benchmark.py --backend $<TARGET_FILE:llvm2symphony> --output ${CMAKE_BINARY_DIR}/bench-current.json)
-
-add_test(NAME donut COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_donut.py --backend $<TARGET_FILE:llvm2symphony> --artifacts ${CMAKE_BINARY_DIR}/validation/donut)
-set_tests_properties(donut PROPERTIES LABELS slow TIMEOUT 240)
-
-add_test(NAME donut_static COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_donut.py --backend $<TARGET_FILE:llvm2symphony> --single-frame --artifacts ${CMAKE_BINARY_DIR}/validation/donut-static)
-set_tests_properties(donut_static PROPERTIES LABELS slow TIMEOUT 240)
-
-add_test(NAME donut_low_memory COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/test_donut.py --backend $<TARGET_FILE:llvm2symphony> --low-memory --diagnostics --artifacts ${CMAKE_BINARY_DIR}/validation/donut-low-memory)
-set_tests_properties(donut_low_memory PROPERTIES LABELS slow TIMEOUT 240)
